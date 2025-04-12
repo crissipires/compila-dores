@@ -1,0 +1,12 @@
+ program exemplo;
+    const pi = 3.14;
+    var x, y: integer;
+    begin
+        print {"Valor de x: ", x};
+        if x > 0 then
+            print {"Positivo"}
+        else
+            print {"Negativo"};
+        for i := 1 to 10 do
+            print {i};
+    end
