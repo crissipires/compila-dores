@@ -1,6 +1,7 @@
  program exemplo;
     const pi = 3.14;
     var x, y: integer;
+    
     begin
         print {"Valor de x: ", x};
         if x > 0 then

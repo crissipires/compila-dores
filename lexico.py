@@ -60,12 +60,28 @@ class AnalisadorLexico:
         """Ignora espaços em branco, tabulações e quebras de linha"""
         while self.caractere_atual is not None and self.caractere_atual.isspace():
             self.avancar()
+            
+    def proximo_caractere(self):
+        """Retorna o próximo caractere sem avançar a posição atual"""
+        if self.posicao + 1 < len(self.codigo_fonte):
+            return self.codigo_fonte[self.posicao + 1]
+        return None
 
     def pular_comentario(self):
-        """Ignora comentários delimitados por chaves {}"""
-        while self.caractere_atual is not None and self.caractere_atual != '}':
+        # Verifica se é o início de um comentário de bloco
+        self.avancar()  
+        self.avancar() 
+    
+        while True:
+            if self.caractere_atual is None:
+                raise Exception(f"Comentário não fechado na linha {self.linha}")
+            
+            if self.caractere_atual == '*' and self.proximo_caractere() == '/':
+                self.avancar() 
+                self.avancar()  
+                break
+                
             self.avancar()
-        self.avancar()  # Pular o } de fechamento
 
     def obter_numero(self):
         """Obtém um número inteiro ou real do código fonte"""
@@ -137,13 +153,9 @@ class AnalisadorLexico:
                 self.pular_espacos()
                 continue
 
-            if self.caractere_atual == '{':
-                # Verifica se é um comentário ou um literal
-                if self.posicao + 1 < len(self.codigo_fonte) and self.codigo_fonte[self.posicao + 1] == '{':
-                    self.pular_comentario()
-                    continue
-                else:
-                    return self.obter_literal()
+            if self.caractere_atual == '/' and self.proximo_caractere() == '*':
+                self.pular_comentario()
+                continue
 
             if self.caractere_atual.isdigit():
                 return self.obter_numero()
