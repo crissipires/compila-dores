@@ -23,37 +23,37 @@ class AdaptedParser:
             1: [8, 16, 31, 46, 47, 35],
             2: [48, 49, 50],
             3: [21, 16, 26, 12, 31, 48],
-            4: [44],  # ε
+            4: [44], 
             5: [2, 52, 33, 53, 31, 54],
             6: [16, 55],
-            7: [44],  # ε
+            7: [44],  
             8: [36, 16, 55],
             9: [52, 33, 53, 31, 54],
-            10: [44],  # ε
+            10: [44], 
             11: [14],
             12: [6],
             13: [5],
             14: [9, 16, 56, 31, 47, 31, 50],
-            15: [44],  # ε
+            15: [44],  
             16: [39, 52, 33, 53, 57, 38],
-            17: [44],  # ε
+            17: [44],  
             18: [36, 52, 33, 53, 57],
-            19: [44],  # ε
+            19: [44],  
             20: [22, 51, 18],
             21: [58, 31, 51],
-            22: [44],  # ε
+            22: [44],  
             23: [10, 40, 59, 60, 41],
             24: [61],
-            25: [44],  # ε
+            25: [44],  
             26: [36, 59, 60],
             27: [62, 63],
             28: [30, 62, 63],
             29: [42, 62, 63],
-            30: [44],  # ε
+            30: [44],  
             31: [64, 65],
             32: [37, 64, 65],
             33: [34, 64, 65],
-            34: [44],  # ε
+            34: [44],  
             35: [39, 61, 38],
             36: [16],
             37: [12],
@@ -69,19 +69,19 @@ class AdaptedParser:
             47: [28],
             48: [24],
             49: [19, 47],
-            50: [44],  # ε
+            50: [44],  
             51: [16, 69],
             52: [17, 16, 32, 61, 3, 61, 20, 47],
             53: [70],
             54: [32, 61],
             55: [39, 71, 72, 38],
-            56: [44],  # ε
+            56: [44],  
             57: [16],
             58: [12],
             59: [11],
             60: [23],
             61: [36, 71, 72],
-            62: [44],  # ε
+            62: [44],  
             63: [1, 66, 20, 47],
             64: [7, 39, 16, 38],
             65: [13]
@@ -215,7 +215,7 @@ class AdaptedParser:
         return self.code_to_name.get(code, str(code))
 
     def parse(self, input_codes):
-        stack = [43, self.start_symbol]  # [$', PROGRAMA]
+        stack = [43, self.start_symbol]
         input_index = 0
         current_token = input_codes[input_index]
 
@@ -225,7 +225,7 @@ class AdaptedParser:
         while True:
             top = stack[-1]
 
-            if top == 43 and current_token == 43:  # $ == $
+            if top == 43 and current_token == 43:
                 print(f"{' '.join(self.symbol_name(s) for s in stack):<40} {' '.join(self.symbol_name(t) for t in input_codes[input_index:]):<40} {'Aceito':<30}")
                 return True
 
@@ -235,11 +235,11 @@ class AdaptedParser:
                 current_token = input_codes[input_index] if input_index < len(input_codes) else 43
                 print(f"{' '.join(self.symbol_name(s) for s in stack):<40} {' '.join(self.symbol_name(t) for t in input_codes[input_index:]):<40} {'Consome ' + self.symbol_name(top):<30}")
 
-            elif top == 44:  # ε
+            elif top == 44:
                 stack.pop()
                 print(f"{' '.join(self.symbol_name(s) for s in stack):<40} {' '.join(self.symbol_name(t) for t in input_codes[input_index:]):<40} {'Desempilha ε':<30}")
 
-            elif top >= 45:  # Todos os não-terminais têm código >= 45
+            elif top >= 45: 
                 key = (top, current_token)
                 if key in self.parsing_table:
                     production_num = self.parsing_table[key]
